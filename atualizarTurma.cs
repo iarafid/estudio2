@@ -1,0 +1,41 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace estudio
+{
+    public partial class atualizarTurma : Form
+    {
+        public atualizarTurma()
+        {
+            InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string dia_semana = textBox1.Text;
+            double hora = double.Parse(textBox2.Text);
+            string modalidade = textBox3.Text;
+            string professor = textBox4.Text;
+
+                Turma turma = new Turma(modalidade, professor, dia_semana, hora);
+
+                if (turma.atualizaTurma())
+                {
+                    MessageBox.Show("Atualizado com Sucesso");
+                }
+                else
+                {
+                    MessageBox.Show("Erro ao Atualizar");
+                }
+            
+
+        }
+    }
+}
