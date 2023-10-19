@@ -32,11 +32,12 @@ namespace estudio
         {
             String cpf = textBox1.Text;
             Aluno aluno = new Aluno(textBox1.Text);
+
             if (e.KeyChar == 13)
             {
                 if (aluno.consultarAluno())
                 {
-                    if (aluno.excluirAluno(cpf))
+                    if (aluno.excluirAluno())
                     {
                         MessageBox.Show("Aluno Excluído com sucesso!");
                     }

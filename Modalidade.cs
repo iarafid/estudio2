@@ -15,25 +15,14 @@ namespace Estudio
     {
         private string descricao;
         private double preco;
-        private int qtde_alunos, qtde_aulas;
         private int del;
-        private int qtdeAluno;
+        private int qtdeAluno, qtdeAula;
 
         public Modalidade(int qtdeAluno)
         {
             this.qtdeAluno = qtdeAluno;
         }
 
-        private int qtdeAula;
-
-        public Modalidade(string descricao, double preco, int qtde_alunos, int qtde_aulas, int del)
-        {
-            this.descricao = descricao;
-            this.preco = preco;
-            this.qtde_alunos = qtde_alunos;
-            this.qtde_aulas = qtde_aulas;
-            this.del = del;
-        }
         public Modalidade(string descricao)
         {
             this.descricao = descricao;
@@ -54,9 +43,6 @@ namespace Estudio
 
         public string Descricao { get => descricao; set => descricao = value; }
         public double Preco { get => preco; set => preco = value; }
-        public int Qtde_aulas { get => qtde_aulas; set => qtde_aulas = value; }
-        public int Qtde_alunos { get => qtde_alunos; set => qtde_alunos = value; }
-
 
         public bool cadastrarModalidade()
         {
@@ -64,12 +50,13 @@ namespace Estudio
             try
             {
                 DAO_Conexao.con.Open();
-                MySqlCommand insere = new MySqlCommand("insert into Estudio_Modalidade(descricaoModalidade, precoModalidade, qtdeAlunos, qtdeAulas) values ('" + descricao + "'," + preco + "," + qtde_alunos + "," + qtde_aulas + ")", DAO_Conexao.con);
+                MySqlCommand insere = new MySqlCommand("insert into Estudio_Modalidade(descricaoModalidade, precoModalidade, qtdeAlunos, qtdeAulas) values ('" + descricao + "'," + preco + "," + qtdeAluno + "," + qtdeAula + ")", DAO_Conexao.con);
                 insere.ExecuteNonQuery();
                 cad = true;
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
                 Console.WriteLine(ex.ToString());
             }
             finally
@@ -95,6 +82,7 @@ namespace Estudio
             catch (Exception ex)
             {
 
+                MessageBox.Show(ex.Message);
                 Console.WriteLine(ex.ToString());
             }
 
@@ -121,7 +109,7 @@ namespace Estudio
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.Message);
             }
 
             finally
@@ -139,7 +127,7 @@ namespace Estudio
             try
             {
                 DAO_Conexao.con.Open();
-                consultaTodos = new MySqlCommand("SELECT * FROM Estudio_Modalidade", DAO_Conexao.con);
+                consultaTodos = new MySqlCommand("SELECT * FROM Estudio_Modalidade where ativo='0'", DAO_Conexao.con);
                 resultadoTodos = consultaTodos.ExecuteReader();
 
 
@@ -147,6 +135,7 @@ namespace Estudio
             catch (Exception ex)
             {
 
+                MessageBox.Show(ex.ToString());
                 Console.WriteLine(ex.ToString());
             }
 
@@ -157,18 +146,20 @@ namespace Estudio
             }
             return resultadoTodos;
         }
+
         public bool atualizaModalidade()
         {
             bool updated = false;
             try
             {
                 DAO_Conexao.con.Open();
-                MySqlCommand update = new MySqlCommand("update Estudio_Modalidade set descricaoModalidade='" + descricao + "', precoModalidade=" + preco + ", qtdeAlunos=" + qtde_alunos + ", qtdeAulas=" + qtde_aulas + ", ativa=" + del + " where descricaoModalidade='" + descricao + "'", DAO_Conexao.con);
+                MySqlCommand update = new MySqlCommand("update Estudio_Modalidade set descricaoModalidade='" + descricao + "', precoModalidade=" + preco + ", qtdeAlunos=" + qtdeAluno + ", qtdeAulas=" + qtdeAula + " where descricaoModalidade='" + descricao + "'", DAO_Conexao.con);
                 update.ExecuteNonQuery();
                 updated = true;
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
                 Console.WriteLine(ex.ToString());
             }
             finally
@@ -184,13 +175,13 @@ namespace Estudio
             try
             {
                 DAO_Conexao.con.Open();
-                MySqlCommand exclui = new MySqlCommand("update Estudio_Modalidade set ativa=1 where descricaoModalidade = '" + Descricao + "'", DAO_Conexao.con);
+                MySqlCommand exclui = new MySqlCommand("update Estudio_Modalidade set ativo=1 where descricaoModalidade = '" + Descricao + "'", DAO_Conexao.con);
                 exclui.ExecuteNonQuery();
                 exc = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.Message);
             }
             finally
             {

@@ -37,9 +37,6 @@ namespace estudio
             this.dia_semana = dia_semana;
         }
 
- 
-
-
         public Turma()
         {
 
@@ -51,12 +48,13 @@ namespace estudio
             try
             {
                 DAO_Conexao.con.Open();
-                MySqlCommand insere = new MySqlCommand("insert into Estudio_Turma(professorTurma, diaSemana, horaTurma, modalidadeTurma) values ('" + professor + "','" + dia_semana + "','" + hora + "','" + modalidade + "')", DAO_Conexao.con);
+                MySqlCommand insere = new MySqlCommand("insert into Estudio_Turma(professorTurma, diaSemana, horaTurma, idModalidade) values ('" + professor + "','" + dia_semana + "','" + hora + "','" + modalidade + "')", DAO_Conexao.con);
                 insere.ExecuteNonQuery();
                 cad = true;
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
                 Console.WriteLine(ex.ToString());
             }
             finally
@@ -73,12 +71,13 @@ namespace estudio
             try
             {
                 DAO_Conexao.con.Open();
-                MySqlCommand exclui = new MySqlCommand("update Estudio_Turma set ativa=1 where modalidadeTurma = '" + modalidade + "'", DAO_Conexao.con);
+                MySqlCommand exclui = new MySqlCommand("update Estudio_Turma set ativo=1 where idModalidade = '" + modalidade + "'", DAO_Conexao.con);
                 exclui.ExecuteNonQuery();
                 exc = true;
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
                 MessageBox.Show(ex.ToString());
             }
             finally
@@ -89,14 +88,14 @@ namespace estudio
 
         }
 
-        public Boolean consultarTurma(string modalidade)
+        public bool consultarTurma(string modalidade)
         {
             bool existe = false;
 
             try
             {
                 DAO_Conexao.con.Open();
-                MySqlCommand consultaBool = new MySqlCommand("SELECT * FROM Estudio_Turma WHERE modalidadeTurma = '" + modalidade + "'", DAO_Conexao.con);
+                MySqlCommand consultaBool = new MySqlCommand("SELECT * FROM Estudio_Turma WHERE ativo=0 and idModalidade = '" + modalidade + "'", DAO_Conexao.con);
                 MySqlDataReader resultado = consultaBool.ExecuteReader();
                 if (resultado.Read())
                 {
@@ -117,47 +116,19 @@ namespace estudio
 
         }
 
-        public MySqlDataReader consultarTurma01()
-        {
-            MySqlCommand consulta01 = null;
-            MySqlDataReader resultado01 = null;
-
-            try
-            {
-                DAO_Conexao.con.Open();
-                consulta01 = new MySqlCommand("SELECT * FROM Estudio_Turma", DAO_Conexao.con);
-                resultado01 = consulta01.ExecuteReader();
-
-
-            }
-            catch (Exception ex)
-            {
-
-                Console.WriteLine(ex.ToString());
-            }
-
-            finally
-            {
-
-
-            }
-            return resultado01;
-
-        }
-
-        public bool atualizaTurma(
-            )
+        public bool atualizaTurma()
         {
             bool updated = false;
             try
             {
                 DAO_Conexao.con.Open();
-                MySqlCommand update = new MySqlCommand("update Estudio_Turma set horaTurma='" + hora +  ", diaSemana=" + dia_semana + ", modalidadeTurma=" + modalidade + ", professorTurma=" + professor + " where modalidade='" + modalidade + "'", DAO_Conexao.con);
+                MySqlCommand update = new MySqlCommand("update Estudio_Turma set horaTurma='" + hora +  "', diaSemana='" + dia_semana + "', idModalidade='" + modalidade + "', professorTurma='" + professor + "' where ativo='0' and idModalidade='" + modalidade + "'", DAO_Conexao.con);
                 update.ExecuteNonQuery();
                 updated = true;
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
                 Console.WriteLine(ex.ToString());
             }
             finally

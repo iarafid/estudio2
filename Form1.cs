@@ -58,8 +58,8 @@ namespace estudio
 
         private void button1_Click(object sender, EventArgs e)
         {
-            String usuario = "cl202206";
-            String senha = "12345";
+            String usuario = textBox1.Text;
+            String senha = textBox2.Text;
 
             int tipo = DAO_Conexao.VerificaLogin(usuario, senha);
             if(tipo == 0)

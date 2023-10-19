@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace estudio
@@ -17,13 +18,21 @@ namespace estudio
         public excluirTurma()
         {
             InitializeComponent();
+            Modalidade modalidade1 = new Modalidade();
+            MySqlDataReader x = modalidade1.ConsultarTodasModalidades();
+            while (x.Read())
+            {
+                comboBox2.Items.Add(x["descricaoModalidade"].ToString());
+            }
+            DAO_Conexao.con.Close();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int dia_semana = int.Parse(comboBox1.Text);
-            double hora = int.Parse(comboBox3.Text);
+            // int dia_semana = int.Parse(comboBox1.Text);
+            // double hora = int.Parse(comboBox3.Text);
             string modalidade = comboBox2.Text; 
+
             try
             {
                 Turma t = new Turma();
@@ -35,14 +44,10 @@ namespace estudio
                         MessageBox.Show("Turma Excluida");
                     }
                 }
-
                 else
                 {
                     MessageBox.Show("Turma inexistente");
                 }
-
-
-                t.excluirTurma(modalidade);
             }
             catch (Exception ex)
             {

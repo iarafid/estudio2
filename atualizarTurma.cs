@@ -19,9 +19,9 @@ namespace estudio
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string dia_semana = textBox1.Text;
-            double hora = double.Parse(textBox2.Text);
-            string modalidade = textBox3.Text;
+            string modalidade = textBox1.Text;
+            string dia_semana = textBox2.Text;
+            double hora = double.Parse(textBox3.Text);
             string professor = textBox4.Text;
 
                 Turma turma = new Turma(modalidade, professor, dia_semana, hora);

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace estudio
 {
@@ -263,7 +264,7 @@ namespace estudio
             try
             {
                 DAO_Conexao.con.Open();
-                MySqlCommand consulta = new MySqlCommand("select * from Estudio_Aluno where CPFAluno='" + cpf + "'", DAO_Conexao.con);
+                MySqlCommand consulta = new MySqlCommand("select * from Estudio_Aluno where ativo='0' and CPFAluno='" + cpf + "'", DAO_Conexao.con);
                 Console.WriteLine("select * from Estudio_Aluno where CPFAluno='" + cpf + "'");
                 MySqlDataReader resultado = consulta.ExecuteReader();
                 if (resultado.Read())
@@ -283,7 +284,7 @@ namespace estudio
             return existe;
         }
 
-        public bool excluirAluno(String cpf)
+        public bool excluirAluno()
         {
             bool exc = false;
             try
@@ -295,6 +296,7 @@ namespace estudio
             }
             catch(Exception ex)
             {
+                MessageBox.Show(ex.Message);
                 Console.WriteLine(ex.ToString());
             }
             finally
