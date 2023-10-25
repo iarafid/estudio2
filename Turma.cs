@@ -137,6 +137,35 @@ namespace estudio
             }
             return updated;
         }
+
+        public MySqlDataReader ConsultarTodasTurmas()
+        {
+            MySqlCommand consultaTodos = null;
+            MySqlDataReader resultadoTodos = null;
+
+            try
+            {
+                DAO_Conexao.con.Open();
+                consultaTodos = new MySqlCommand("SELECT * FROM Estudio_Turma where ativo='0' and idEstudio_Turma = '" + idEstudio_Turma + "'descricaoModalidade='" + descricaoModalidade + "'diadasemanaTurma='" + dia_semana + "'horaTurma='" + hora + "'", DAO_Conexao.con);
+                resultadoTodos = consultaTodos.ExecuteReader();
+
+
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.ToString());
+                Console.WriteLine(ex.ToString());
+            }
+
+            finally
+            {
+
+
+            }
+            return resultadoTodos;
+        }
+
     }
 
 
