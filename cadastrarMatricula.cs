@@ -19,7 +19,7 @@ namespace estudio
             InitializeComponent();
             WindowState = FormWindowState.Maximized;
             Modalidade con_mod = new Modalidade();
-            MySqlDataReader r = con_mod.ConsultarTodasModalidades();
+            MySqlDataReader r = con_mod.CadastrarMatricula();
             while (r.Read())
             {
                 int id = int.Parse(r["idEstudio_Turma"].ToString());
@@ -48,9 +48,9 @@ namespace estudio
             String cpf = this.textBox1.Text;
 
 
-            Turma t1 = new Turma(cpf);
+            Modalidade m1 = new Modalidade(cpf);
 
-            if (t1.cadastrarMatricula())
+            if (m1.CadastrarMatricula())
             {
                 MessageBox.Show("Cadastro Realizado com sucesso!");
             }

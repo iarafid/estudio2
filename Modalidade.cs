@@ -190,7 +190,53 @@ namespace Estudio
             return exc;
         }
 
-     
+        public bool CadastrarMatricula(string descricao, Turma turma)
+        {
+            bool cad = false;
+            try
+            {
+                MySqlConnection con = new MySqlConnection("cl202237");
+                con.Open();
+
+                using (MySqlTransaction transaction = con.BeginTransaction())
+                {
+                    try
+                    {
+                       
+                        MySqlCommand insere = new MySqlCommand("INSERT INTO Estudio_Modalidade (descricaoModalidade) VALUES (@descricao)", con);
+                        insere.Parameters.AddWithValue("@descricao", descricao);
+                        insere.ExecuteNonQuery();
+
+                       
+                        Console.WriteLine(turma.Dia_semana);
+                        Console.WriteLine(turma.Hora);
+                       // Console.WriteLine(turma.idEstudio_Turma);
+
+                       
+                        transaction.Commit();
+                        cad = true;
+                    }
+                    catch (Exception ex)
+                    {
+                    
+                        transaction.Rollback();
+                        MessageBox.Show(ex.Message);
+                        Console.WriteLine(ex.ToString());
+                    }
+                }
+
+                  con.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                Console.WriteLine(ex.ToString());
+            }
+
+            return cad;
+        }
+
+
 
 
     }
