@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace estudio
 {
-    public partial class consultarMatricula : Form
+    public partial class ConsultarExcluirMatricula : Form
     {
-        public consultarMatricula()
+        public ConsultarExcluirMatricula()
         {
             InitializeComponent();
         }

@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Estudio;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,14 @@ namespace estudio
     {
         private double  hora;
         private string professor, dia_semana, modalidade;
-
+        private double id;
+        private int qtdeMax = 0;
         public string Professor { get => professor; set => professor = value; }
         public string Dia_semana { get => dia_semana; set => dia_semana = value; }
         public double Hora { get => hora; set => hora = value; }
         public string Modalidade { get => modalidade; set => modalidade = value; }
+        public double Id { get => id; set => id = value; }
+        public int QtdeMax { get => qtdeMax; set => qtdeMax = value; }
 
         public Turma(string modalidade, string professor, string dia_semana, double hora)
         {
@@ -29,6 +33,11 @@ namespace estudio
         public Turma(string modalidade)
         {
             this.modalidade = modalidade;
+        }
+
+        public Turma(double id)
+        {
+            this.id = id;
         }
 
         public Turma(string modalidade, string dia_semana)
@@ -168,6 +177,18 @@ namespace estudio
 
     }
 
+    public void QtdeMax(int mde)
+    {
+        try
+        {
+            Modalidade m = new Modalidade();
+            qtdeMax = m.qtdeAlunosViaID(mde);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
+    }
 
 
 }

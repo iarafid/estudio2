@@ -56,11 +56,11 @@
     <Compile Include="atualizarTurma.Designer.cs">
       <DependentUpon>atualizarTurma.cs</DependentUpon>
     </Compile>
-    <Compile Include="cadastrarMatricula.cs">
+    <Compile Include="CadastrarMatricula.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="cadastrarMatricula.Designer.cs">
-      <DependentUpon>cadastrarMatricula.cs</DependentUpon>
+    <Compile Include="CadastrarMatricula.Designer.cs">
+      <DependentUpon>CadastrarMatricula.cs</DependentUpon>
     </Compile>
     <Compile Include="CadastrarModalidade.cs">
       <SubType>Form</SubType>
@@ -75,11 +75,11 @@
       <DependentUpon>cadastrarTurma.cs</DependentUpon>
     </Compile>
     <Compile Include="Class1.cs" />
-    <Compile Include="consultarMatricula.cs">
+    <Compile Include="ConsultarExcluirMatricula.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="consultarMatricula.Designer.cs">
-      <DependentUpon>consultarMatricula.cs</DependentUpon>
+    <Compile Include="ConsultarExcluirMatricula.Designer.cs">
+      <DependentUpon>ConsultarExcluirMatricula.cs</DependentUpon>
     </Compile>
     <Compile Include="ConsultarModalidade.cs">
       <SubType>Form</SubType>
@@ -88,12 +88,6 @@
       <DependentUpon>ConsultarModalidade.cs</DependentUpon>
     </Compile>
     <Compile Include="DAO_Conexao.cs" />
-    <Compile Include="excluirMatricula.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="excluirMatricula.Designer.cs">
-      <DependentUpon>excluirMatricula.cs</DependentUpon>
-    </Compile>
     <Compile Include="ExcluirModalidade.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -138,14 +132,17 @@
     <EmbeddedResource Include="atualizarTurma.resx">
       <DependentUpon>atualizarTurma.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="cadastrarMatricula.resx">
-      <DependentUpon>cadastrarMatricula.cs</DependentUpon>
+    <EmbeddedResource Include="CadastrarMatricula.resx">
+      <DependentUpon>CadastrarMatricula.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CadastrarModalidade.resx">
       <DependentUpon>CadastrarModalidade.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="cadastrarTurma.resx">
       <DependentUpon>cadastrarTurma.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsultarExcluirMatricula.resx">
+      <DependentUpon>ConsultarExcluirMatricula.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ConsultarModalidade.resx">
       <DependentUpon>ConsultarModalidade.cs</DependentUpon>
