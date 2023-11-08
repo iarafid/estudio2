@@ -29,6 +29,23 @@ namespace estudio
 
 
         //contrutores, getters & setters
+        public Aluno(string cpf, string nome, string rua, string numero, string bairro, string complemento, string cep, string cidade, string estado, string telefone, string email, byte[] foto)
+        {
+            setCpf(cpf);
+            setNome(nome);
+            setRua(rua);
+            setNum(numero);
+            setBairro(bairro);
+            setComp(complemento);
+            setCep(cep);
+            setCidade(cidade);
+            setEstado(estado);
+            setTel(telefone);
+            setEmail(email);
+            setFoto(foto);
+
+        }
+
         public Aluno(string cpf, string nome, string rua, string numero, string bairro, string complemento, string cep, string cidade, string estado, string telefone, string email)
         {
             setCpf(cpf);
@@ -42,7 +59,6 @@ namespace estudio
             setEstado(estado);
             setTel(telefone);
             setEmail(email);
-          
 
         }
 
@@ -214,7 +230,16 @@ namespace estudio
             }
 
         }
- 
+
+        public byte[] Foto
+        {
+            get
+            {
+                return foto;
+            }
+
+        }
+
 
         //cadastro de alunos:
         public bool cadastrarAluno()
@@ -307,6 +332,8 @@ namespace estudio
             return exc;
         }
 
+
+       
 
 
 

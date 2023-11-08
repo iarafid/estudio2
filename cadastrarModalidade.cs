@@ -51,5 +51,10 @@ namespace estudio
         {
 
         }
+
+        private void CadastrarModalidade_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

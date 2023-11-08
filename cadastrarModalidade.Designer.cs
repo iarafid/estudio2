@@ -143,6 +143,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "CadastrarModalidade";
             this.Text = "CadastrarModalidade";
+            this.Load += new System.EventHandler(this.CadastrarModalidade_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

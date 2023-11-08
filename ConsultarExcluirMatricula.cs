@@ -104,7 +104,7 @@ namespace estudio
                     listBox1.Items.Add(nomeLista);
                 }
                 DAO_Conexao.con.Close();
-                textBox1.Text = ma.contarAlunos(obterIdTurma()).ToString();
+                textBox1.Text = ma.contarAlunosMatricula(obterIdTurma()).ToString();
             }
 
             catch (Exception ex)
@@ -187,6 +187,11 @@ namespace estudio
         }
 
         private void ConsultarExcluirMatricula_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
         {
 
         }

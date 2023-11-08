@@ -16,12 +16,12 @@ namespace Estudio
         private string descricao;
         private double preco;
         private int del;
-        private int qtdeAluno, qtdeAula;
-        private int idModalidade;
+        private int qtdeAluno, qtdeAula, idModalidade;
 
-        public Modalidade(int qtdeAluno)
+        public Modalidade(int qtdeAluno, int idModalidade)
         {
             this.qtdeAluno = qtdeAluno;
+            this.idModalidade = idModalidade;
         }
 
         public Modalidade(string descricao)
@@ -30,11 +30,7 @@ namespace Estudio
 
         }
 
-        public Modalidade (int idModalidade)
-        {
-            this.idModalidade = idModalidade;
-
-        }
+      
         public Modalidade()
         {
 
@@ -200,33 +196,34 @@ namespace Estudio
             return exc;
         }
 
-    }
 
-    public int QtdeAlunosViaID(int idModalidade)
-    {
-        int quantidade = 0;
-        MySqlCommand consulta = null;
-        MySqlDataReader resultado = null;
 
-        try
+        public int QtdeAlunosViaID(int idModalidade)
         {
-            DAO_Conexao.con.Open();
-            consulta = new MySqlCommand("SELECT qtdeAlunos FROM Estudio_Modalidade WHERE idEstudio_Modalidade='" + idModalidade + "'", DAO_Conexao.con);
-            resultado = consulta.ExecuteReader();
-            while (resultado.Read())
+            int quantidade = 0;
+            MySqlCommand consulta = null;
+            MySqlDataReader resultado = null;
+
+            try
             {
-                quantidade = int.Parse(resultado["qtdeAluno"].ToString());
+                DAO_Conexao.con.Open();
+                consulta = new MySqlCommand("SELECT qtdeAlunos FROM Estudio_Modalidade WHERE idEstudio_Modalidade='" + idModalidade + "'", DAO_Conexao.con);
+                resultado = consulta.ExecuteReader();
+                while (resultado.Read())
+                {
+                    quantidade = int.Parse(resultado["qtdeAluno"].ToString());
+                }
+                DAO_Conexao.con.Close();
             }
-            DAO_Conexao.con.Close();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.ToString());
-        }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
 
-        finally
-        {
+            finally
+            {
+            }
+            return quantidade;
         }
-        return quantidade;
-    } 
+    }
 }

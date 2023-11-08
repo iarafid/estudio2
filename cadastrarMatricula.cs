@@ -63,7 +63,7 @@ namespace estudio
                     Aluno al = new Aluno(cpf);
                     if (al.consultarAluno() == true)
                     {
-                        int id = obterIdTurma();
+                        id = obterIdTurma();
                         Matricula m = new Matricula();
                         Turma tu = new Turma();
                         tu.setQtdeMax(index);
@@ -71,11 +71,11 @@ namespace estudio
                         {
                             Aluno a = new Aluno(cpf);
 
-                            if (a.verificaCPF())
+                            if (a.verificaCPF())//nao existe o  metodo 
                             {
-                                cpf = a.getCPF();
+                                cpf = a();
 
-                                if (m.cadastrar(id, cpf))
+                                if (m.cadastrarMatricula(id, cpf))
                                 {
                                     MessageBox.Show("Cadastro realizado");
                                 }
@@ -99,6 +99,7 @@ namespace estudio
                 }
 
             }
+        }
 
             private int obterIdTurma()
             {
@@ -162,7 +163,9 @@ namespace estudio
                 }
             }
 
-            
+        private void CadastrarMatricula_Load(object sender, EventArgs e)
+        {
 
         }
-    } }
+    }
+    } 
