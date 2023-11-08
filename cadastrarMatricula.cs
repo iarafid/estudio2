@@ -134,7 +134,7 @@ namespace estudio
                         {
                             Aluno a = new Aluno(cpf);
 
-                            if (a.verificaCPF())//nao existe o  metodo 
+                            if (a.verificaCPF(cpf)) 
                             {
                                 cpf = a.Cpf;
 
