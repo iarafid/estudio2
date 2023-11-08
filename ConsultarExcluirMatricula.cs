@@ -56,6 +56,21 @@ namespace estudio
             }
         }
 
+        private string obterCPFAluno()
+        {
+            try
+            {
+                resultado = (listBox1.SelectedItem.ToString()).Split('-');
+                nomeAluno = resultado[0];
+                CPFAluno = resultado[1];
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return CPFAluno;
+        }
+
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -114,6 +129,27 @@ namespace estudio
         }
 
 
+        private void btnExcluir_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Matricula ma = new Matricula();
+                if (ma.excluirAlunoMatricula(obterCPFAluno()))
+                {
+                    MessageBox.Show("Excluido Com Sucesso!");
+                }
+                else
+                {
+                    MessageBox.Show("Erro ao Excluir");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+
         private int obterIdTurma()
         {
             try
@@ -146,40 +182,7 @@ namespace estudio
             return idTurma;
         }
 
-        private void btnExcluir_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Matricula ma = new Matricula();
-                if (ma.excluirAlunoMatricula(obterCPFAluno()))
-                {
-                    MessageBox.Show("Excluido Com Sucesso!");
-                }
-                else
-                {
-                    MessageBox.Show("Erro ao Excluir");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-        }
-
-        private string obterCPFAluno()
-        {
-            try
-            {
-                resultado = (listBox1.SelectedItem.ToString()).Split('-');
-                nomeAluno = resultado[0];
-                CPFAluno = resultado[1];
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return CPFAluno;
-        }
+        
 
         private void groupBox2_Enter(object sender, EventArgs e)
         {

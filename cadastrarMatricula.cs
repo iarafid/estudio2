@@ -45,63 +45,38 @@ namespace estudio
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string cpf = maskedTextBox1.Text;
-            cpf = cpf.Trim();
-            cpf = cpf.Replace(".", "");
-            cpf = cpf.Replace("-", "");
-            Aluno alu = new Aluno(cpf);
-            if (alu.consultarAluno() == true)
+            try
             {
-                int id = obterIdTurma();
-                Matricula ma = new Matricula();
+                listBox1.Items.Clear();
+                Modalidade m = new Modalidade();
+                MySqlDataReader Idx = m.consultarModalidade(comboBox1.SelectedItem.ToString());
+                while (Idx.Read())
+                {
+                    index = int.Parse(Idx["idEstudio_Modalidade"].ToString());
+                    nomeModalidade = (Idx["descricaoModalidade"].ToString());
+                }
+                DAO_Conexao.con.Close();
+
                 Turma t = new Turma();
-                t.setQtdeMax(index);
-                if (ma.contarAlunosMatricula(obterIdTurma()) < t.QtdeMax)
+                MySqlDataReader Lbx = t.consultarTurmaId(index);
+                while (Lbx.Read())
                 {
-                    Aluno al = new Aluno(cpf);
-                    if (al.consultarAluno() == true)
-                    {
-                        id = obterIdTurma();
-                        Matricula m = new Matricula();
-                        Turma tu = new Turma();
-                        tu.setQtdeMax(index);
-                        if (m.contarAlunosMatricula(obterIdTurma()) < tu.QtdeMax)
-                        {
-                            Aluno a = new Aluno(cpf);
-
-                            if (a.verificaCPF())//nao existe o  metodo 
-                            {
-                                cpf = a();
-
-                                if (m.cadastrarMatricula(id, cpf))
-                                {
-                                    MessageBox.Show("Cadastro realizado");
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Erro no cadastro");
-                                }
-                            }
-                        }
-
-                    }
-                    else
-                    {
-                        MessageBox.Show("Não é possível mais cadastrar alunos nesta turma");
-                    }
+                    nomeTurma = nomeModalidade + "-" + Lbx["diaSemanaTurma"].ToString() + "-" + Lbx["horaTurma"].ToString();
+                    listBox1.Items.Add(nomeTurma);
                 }
-                else
-                {
-                    MessageBox.Show("Este CPF não existe no banco de dados");
-
-                }
+                DAO_Conexao.con.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
 
             }
         }
 
-            private int obterIdTurma()
+
+        private int obterIdTurma()
             {
                 try
                 {
@@ -133,35 +108,62 @@ namespace estudio
                 return idTurma;
             }
 
-            private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string cpf = maskedTextBox1.Text;
+            cpf = cpf.Trim();
+            cpf = cpf.Replace(".", "");
+            cpf = cpf.Replace("-", "");
+            Aluno alu = new Aluno(cpf);
+            if (alu.consultarAluno() == true)
             {
-                try
+                int id = obterIdTurma();
+                Matricula ma = new Matricula();
+                Turma t = new Turma();
+                t.setQtdeMax(index);
+                if (ma.contarAlunosMatricula(obterIdTurma()) < t.QtdeMax)
                 {
-                    listBox1.Items.Clear();
-                    Modalidade m = new Modalidade();
-                    MySqlDataReader Idx = m.consultarModalidade(comboBox1.SelectedItem.ToString());
-                    while (Idx.Read())
+                    Aluno al = new Aluno(cpf);
+                    if (al.consultarAluno() == true)
                     {
-                        index = int.Parse(Idx["idEstudio_Modalidade"].ToString());
-                        nomeModalidade = (Idx["descricaoModalidade"].ToString());
-                    }
-                    DAO_Conexao.con.Close();
+                        id = obterIdTurma();
+                        Matricula m = new Matricula();
+                        Turma tu = new Turma();
+                        tu.setQtdeMax(index);
+                        if (m.contarAlunosMatricula(obterIdTurma()) < tu.QtdeMax)
+                        {
+                            Aluno a = new Aluno(cpf);
 
-                    Turma t = new Turma();
-                    MySqlDataReader Lbx = t.consultarTurmaId(index);
-                    while (Lbx.Read())
-                    {
-                        nomeTurma = nomeModalidade + "-" + Lbx["diaSemanaTurma"].ToString() + "-" + Lbx["horaTurma"].ToString();
-                        listBox1.Items.Add(nomeTurma);
+                            if (a.verificaCPF())//nao existe o  metodo 
+                            {
+                                cpf = a.Cpf;
+
+                                if (m.cadastrarMatricula(id, cpf))
+                                {
+                                    MessageBox.Show("Cadastro realizado");
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Erro no cadastro");
+                                }
+                            }
+                        }
+
                     }
-                    DAO_Conexao.con.Close();
+                    else
+                    {
+                        MessageBox.Show("Não é possível mais cadastrar alunos nesta turma");
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    Console.WriteLine(ex.Message);
+                    MessageBox.Show("Este CPF não existe no banco de dados");
 
                 }
+
             }
+        }
+
 
         private void CadastrarMatricula_Load(object sender, EventArgs e)
         {
