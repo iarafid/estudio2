@@ -46,6 +46,19 @@ namespace estudio
             this.dia_semana = dia_semana;
         }
 
+        public Turma(double id, string dia_semana, double hora)
+        {
+            this.id = id;
+            this.dia_semana = dia_semana;
+            this.hora = hora;
+        }
+
+        public Turma(string modalidade, int qtdeMax)
+        {
+            this.modalidade = modalidade;
+            this.qtdeMax = qtdeMax;
+        }
+
         public Turma()
         {
 
@@ -177,17 +190,61 @@ namespace estudio
 
     }
 
-    public void QtdeMax(int mde)
+    public void qtdeMax (int modalidade, int qtdeMax)
     {
         try
         {
             Modalidade m = new Modalidade();
-            qtdeMax = m.qtdeAlunosViaID(mde);
+            qtdeMax = m.qtdeAlunosViaID(modalidade);
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.ToString());
         }
+    }
+
+    public MySqlDataReader consultarTurmaIdDiaHora(int id, string dia_semana, string hora)
+    {
+        MySqlCommand consulta = null;
+        MySqlDataReader resultado = null;
+
+        try
+        {
+            DAO_Conexao.con.Open();
+            consulta = new MySqlCommand("SELECT * FROM Estudio_Turma WHERE idModalidade='" + id + "' AND diaSemana='" + dia_semana + "' AND horaTurma='" + hora + "'", DAO_Conexao.con);
+            resultado = consulta.ExecuteReader();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
+
+        finally
+        {
+        }
+        return resultado;
+    }
+
+    public MySqlDataReader consultarTurmaId(int id)
+    {
+        MySqlCommand consulta = null;
+        MySqlDataReader resultado = null;
+
+        try
+        {
+            DAO_Conexao.con.Open();
+            consulta = new MySqlCommand("SELECT * FROM Estudio_Turma WHERE idModalidade='" + id + "'", DAO_Conexao.con);
+            resultado = consulta.ExecuteReader();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
+
+        finally
+        {
+        }
+        return resultado;
     }
 
 

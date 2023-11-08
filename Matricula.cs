@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace estudio
 {
@@ -14,7 +15,7 @@ namespace estudio
     }
 
     public bool cadastrarMatricula(int idTurma, string cpf)
-    {
+    {  
         bool cad = false;
         try
         {
@@ -81,7 +82,11 @@ namespace estudio
         }
         return resultadoTodos;
     }
+
+    
+
     public int contarAlunosMatricula(int idTurma)
+
     {
         MySqlCommand consultaTodos = null;
         MySqlDataReader resultadoTodos = null;
@@ -129,5 +134,8 @@ namespace estudio
         }
         return exc;
     }
+
 }
-}
+
+
+

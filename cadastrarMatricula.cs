@@ -15,6 +15,7 @@ namespace estudio
 {
     public partial class CadastrarMatricula : Form
     {
+
         private int index;
         private string nomeModalidade;
         private string nomeTurma;
@@ -24,8 +25,10 @@ namespace estudio
         private int idModalidadeBusca;
         private string horaSelected;
         private int idTurma;
+
         public CadastrarMatricula()
         {
+            InitializeComponent();
             try
             {
                 Modalidade m = new Modalidade();
@@ -46,107 +49,120 @@ namespace estudio
         {
             string cpf = maskedTextBox1.Text;
             cpf = cpf.Trim();
-            Aluno al = new Aluno(cpf);
-            if (al.consultarAluno() == true)
+            cpf = cpf.Replace(".", "");
+            cpf = cpf.Replace("-", "");
+            Aluno alu = new Aluno(cpf);
+            if (alu.consultarAluno() == true)
             {
                 int id = obterIdTurma();
-                Matricula m = new Matricula();
+                Matricula ma = new Matricula();
                 Turma t = new Turma();
                 t.setQtdeMax(index);
-                if (m.contarAlunos(obterIdTurma()) < t.QtdeMax)
+                if (ma.contarAlunosMatricula(obterIdTurma()) < t.QtdeMax)
                 {
-                    Aluno a = new Aluno(cpf);
-
-                    if (a.verificaCPF())
+                    Aluno al = new Aluno(cpf);
+                    if (al.consultarAluno() == true)
                     {
-                        cpf = a.getCPF();
+                        int id = obterIdTurma();
+                        Matricula m = new Matricula();
+                        Turma tu = new Turma();
+                        tu.setQtdeMax(index);
+                        if (m.contarAlunosMatricula(obterIdTurma()) < tu.QtdeMax)
+                        {
+                            Aluno a = new Aluno(cpf);
 
-                        if (m.cadastrar(id, cpf))
-                        {
-                            MessageBox.Show("Cadastro realizado");
+                            if (a.verificaCPF())
+                            {
+                                cpf = a.getCPF();
+
+                                if (m.cadastrar(id, cpf))
+                                {
+                                    MessageBox.Show("Cadastro realizado");
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Erro no cadastro");
+                                }
+                            }
                         }
-                        else
-                        {
-                            MessageBox.Show("Erro no cadastro");
-                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Não é possível mais cadastrar alunos nesta turma");
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Não é possível mais cadastrar alunos nesta turma");
+                    MessageBox.Show("Este CPF não existe no banco de dados");
+
                 }
-            }
-            else
-            {
-                MessageBox.Show("Este CPF não existe no banco de dados");
-            }
-        }
 
-        private int obterIdTurma()
-        {
-            try
-            {
-                resultado = listBox1.SelectedItem.ToString().Split('-');
-                modalidadeSelected = resultado[0];
-                horarioSelected = resultado[1];
-                horaSelected = resultado[2];
+            }
 
-                Modalidade modalidade = new Modalidade();
-                MySqlDataReader rMod = modalidade.consultarModalidade(modalidadeSelected);
-                while (rMod.Read())
+            private int obterIdTurma()
+            {
+                try
                 {
-                    idModalidadeBusca = int.Parse(rMod["idEstudio_Modalidade"].ToString());
-                }
-                DAO_Conexao.con.Close();
+                    resultado = listBox1.SelectedItem.ToString().Split('-');
+                    modalidadeSelected = resultado[0];
+                    horarioSelected = resultado[1];
+                    horaSelected = resultado[2];
 
-                Turma turma = new Turma();
-                MySqlDataReader rDia = turma.consultarTurma(idModalidadeBusca, horarioSelected, horaSelected);
-                while (rDia.Read())
+                    Modalidade m = new Modalidade();
+                    MySqlDataReader Mod = m.consultarModalidade(modalidadeSelected);
+                    while (Mod.Read())
+                    {
+                        idModalidadeBusca = int.Parse(Mod["idEstudio_Modalidade"].ToString());
+                    }
+                    DAO_Conexao.con.Close();
+
+                    Turma t = new Turma();
+                    MySqlDataReader Dia = t.consultarTurmaIdDiaHora(idModalidadeBusca, horarioSelected, horaSelected);
+                    while (Dia.Read())
+                    {
+                        idTurma = int.Parse(Dia["idEstudio_Turma"].ToString());
+                    }
+                    DAO_Conexao.con.Close();
+                }
+                catch (Exception ex)
                 {
-                    idTurma = int.Parse(rDia["idEstudio_Turma"].ToString());
+                    Console.WriteLine(ex.Message);
                 }
-                DAO_Conexao.con.Close();
+                return idTurma;
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return idTurma;
-        }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
+            private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
             {
-                listBox1.Items.Clear();
-                Modalidade m = new Modalidade();
-                MySqlDataReader rId = m.consultarModalidade(comboBox1.SelectedItem.ToString());
-                while (rId.Read())
+                try
                 {
-                    index = int.Parse(rId["idEstudio_Modalidade"].ToString());
-                    nomeModalidade = (rId["descricaoModalidade"].ToString());
-                }
-                DAO_Conexao.con.Close();
+                    listBox1.Items.Clear();
+                    Modalidade m = new Modalidade();
+                    MySqlDataReader Idx = m.consultarModalidade(comboBox1.SelectedItem.ToString());
+                    while (Idx.Read())
+                    {
+                        index = int.Parse(Idx["idEstudio_Modalidade"].ToString());
+                        nomeModalidade = (Idx["descricaoModalidade"].ToString());
+                    }
+                    DAO_Conexao.con.Close();
 
-                Turma t = new Turma();
-                MySqlDataReader rLb = t.consultarTurmaId(index);
-                while (rLb.Read())
+                    Turma t = new Turma();
+                    MySqlDataReader Lbx = t.consultarTurmaId(index);
+                    while (Lbx.Read())
+                    {
+                        nomeTurma = nomeModalidade + "-" + Lbx["diaSemanaTurma"].ToString() + "-" + Lbx["horaTurma"].ToString();
+                        listBox1.Items.Add(nomeTurma);
+                    }
+                    DAO_Conexao.con.Close();
+                }
+                catch (Exception ex)
                 {
-                    nomeTurma = nomeModalidade + "-" + rLb["diaSemanaTurma"].ToString() + "-" + rLb["horaTurma"].ToString();
-                    listBox1.Items.Add(nomeTurma);
+                    Console.WriteLine(ex.Message);
+
                 }
-                DAO_Conexao.con.Close();
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+
+            
+
         }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
-    }
-
-
-} 
+    } }
