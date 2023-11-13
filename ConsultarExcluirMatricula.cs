@@ -73,24 +73,17 @@ namespace estudio
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            var modalidade = comboBox1.Text;
+
             try
             {
                 listBox2.Items.Clear();
-                listBox1.Items.Clear();
-                Modalidade ma = new Modalidade();
-                MySqlDataReader Idx = ma.consultarModalidade(comboBox1.SelectedItem.ToString());
-                while (Idx.Read())
-                {
-                    index = int.Parse(Idx["idEstudio_Modalidade"].ToString());
-                    nomeModalidade = (Idx["descricaoModalidade"].ToString());
-                }
-                DAO_Conexao.con.Close();
 
                 Turma t = new Turma();
-                MySqlDataReader Lbx = t.consultarTurmaId(index);
+                MySqlDataReader Lbx = t.consultarTurmaId(modalidade);
                 while (Lbx.Read())
                 {
-                    nomeTurma = nomeModalidade + "-" + Lbx["diaSemanaTurma"].ToString() + "-" + Lbx["horaTurma"].ToString();
+                    nomeTurma = Lbx["idEstudio_Turma"].ToString();
                     listBox2.Items.Add(nomeTurma);
                 }
                 DAO_Conexao.con.Close();
@@ -107,15 +100,14 @@ namespace estudio
             {
                 Matricula ma = new Matricula();
                 Turma t = new Turma();
-                t.setQtdeMax(index);
 
                 Aluno a = new Aluno();
 
-                MySqlDataReader reader = ma.consultarMatriculaInnerJoin(obterIdTurma());
+                MySqlDataReader reader = ma.consultarMatriculaInnerJoin(int.Parse(listBox2.Text));
 
                 while (reader.Read())
                 {
-                    nomeLista = reader["nomeAluno"].ToString() + "-" + reader["CPFAluno"].ToString();
+                    nomeLista = reader["CPFAluno"].ToString();
                     listBox1.Items.Add(nomeLista);
                 }
                 DAO_Conexao.con.Close();
@@ -134,7 +126,7 @@ namespace estudio
             try
             {
                 Matricula ma = new Matricula();
-                if (ma.excluirAlunoMatricula(obterCPFAluno()))
+                if (ma.excluirAlunoMatricula(listBox1.Text))
                 {
                     MessageBox.Show("Excluido Com Sucesso!");
                 }

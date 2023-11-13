@@ -100,6 +100,9 @@ namespace estudio
 
         private byte[] ConverterFotoParaByteArray()
         {
+            if (pictureBox1.Image is null)
+                 return null;
+
             using (var stream = new System.IO.MemoryStream())
             {
                 pictureBox1.Image.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);

@@ -248,7 +248,8 @@ namespace estudio
             try
             {
                 DAO_Conexao.con.Open();
-                MySqlCommand insere = new MySqlCommand("insert into Estudio_Aluno(CPFAluno, nomeAluno, ruaAluno, numeroAluno, bairroAluno, complementoAluno,CEPAluno,cidadeAluno,estadoAluno,telefoneAluno, emailAluno) values ('" + cpf + "','" + Nome + "','" + Rua + "','" + numero + "','" + Bairro + "','" + complemento + "','" + CEP + "','" + Cidade + "','" + Estado + "','" + telefone + "','" + Email + "')", DAO_Conexao.con);
+                MySqlCommand insere = new MySqlCommand("insert into Estudio_Aluno(CPFAluno, nomeAluno, ruaAluno, numeroAluno, bairroAluno, complementoAluno,CEPAluno,cidadeAluno,estadoAluno,telefoneAluno, emailAluno, fotoAluno) values ('" + cpf + "','" + Nome + "','" + Rua + "','" + numero + "','" + Bairro + "','" + complemento + "','" + CEP + "','" + Cidade + "','" + Estado + "','" + telefone + "','" + Email + "', @foto)", DAO_Conexao.con);
+                insere.Parameters.AddWithValue("@foto", foto);
                 insere.ExecuteNonQuery();
                 cad = true;
             }

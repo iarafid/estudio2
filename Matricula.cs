@@ -66,7 +66,15 @@ namespace estudio
             try
             {
                 DAO_Conexao.con.Open();
-                consultaTodos = new MySqlCommand("select * from Estudio_Aluno inner join Estudio_Matricula on Estudio_Aluno.CPFAluno = Estudio_Matricula.cpf_Aluno where Estudio_Matricula.id_Turma='" + idTurma + "'", DAO_Conexao.con);
+
+                var sql = $@"SELECT Estudio_Aluno.CPFAluno
+                            FROM Estudio_Aluno
+                            INNER JOIN Estudio_Matricula ON Estudio_Aluno.CPFAluno = Estudio_Matricula.cpf_Aluno 
+                            INNER JOIN Estudio_Turma ON Estudio_Matricula.id_Turma = Estudio_Turma.idEstudio_Turma
+                            WHERE Estudio_Turma.idEstudio_Turma = '{idTurma}'
+                          ";    
+
+                consultaTodos = new MySqlCommand(sql, DAO_Conexao.con);
                 resultadoTodos = consultaTodos.ExecuteReader();
 
 

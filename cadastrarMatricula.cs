@@ -47,23 +47,17 @@ namespace estudio
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            var modalidade = comboBox1.Text;
+
             try
             {
                 listBox1.Items.Clear();
-                Modalidade m = new Modalidade();
-                MySqlDataReader Idx = m.consultarModalidade(comboBox1.SelectedItem.ToString());
-                while (Idx.Read())
-                {
-                    index = int.Parse(Idx["idEstudio_Modalidade"].ToString());
-                    nomeModalidade = (Idx["descricaoModalidade"].ToString());
-                }
-                DAO_Conexao.con.Close();
 
                 Turma t = new Turma();
-                MySqlDataReader Lbx = t.consultarTurmaId(index);
+                MySqlDataReader Lbx = t.consultarTurmaId(modalidade);
                 while (Lbx.Read())
                 {
-                    nomeTurma = nomeModalidade + "-" + Lbx["diaSemanaTurma"].ToString() + "-" + Lbx["horaTurma"].ToString();
+                    nomeTurma = Lbx["idEstudio_Turma"].ToString();
                     listBox1.Items.Add(nomeTurma);
                 }
                 DAO_Conexao.con.Close();
@@ -71,7 +65,6 @@ namespace estudio
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-
             }
         }
 
@@ -110,6 +103,8 @@ namespace estudio
 
         private void button1_Click(object sender, EventArgs e)
         {
+            var idTurma = int.Parse(listBox1.Text);
+
             string cpf = maskedTextBox1.Text;
             cpf = cpf.Trim();
             cpf = cpf.Replace(".", "");
@@ -117,38 +112,24 @@ namespace estudio
             Aluno alu = new Aluno(cpf);
             if (alu.consultarAluno() == true)
             {
-                int id = obterIdTurma();
                 Matricula ma = new Matricula();
                 Turma t = new Turma();
-                t.setQtdeMax(index);
-                if (ma.contarAlunosMatricula(obterIdTurma()) < t.QtdeMax)
+                t.setQtdeMax(10);
+                if (ma.contarAlunosMatricula(idTurma) < t.QtdeMax)
                 {
                     Aluno al = new Aluno(cpf);
                     if (al.consultarAluno() == true)
                     {
-                        id = obterIdTurma();
-                        Matricula m = new Matricula();
-                        Turma tu = new Turma();
-                        tu.setQtdeMax(index);
-                        if (m.contarAlunosMatricula(obterIdTurma()) < tu.QtdeMax)
+                        cpf = al.Cpf;
+
+                        if (ma.cadastrarMatricula(idTurma, cpf))
                         {
-                            Aluno a = new Aluno(cpf);
-
-                            if (a.verificaCPF(cpf)) 
-                            {
-                                cpf = a.Cpf;
-
-                                if (m.cadastrarMatricula(id, cpf))
-                                {
-                                    MessageBox.Show("Cadastro realizado");
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Erro no cadastro");
-                                }
-                            }
+                            MessageBox.Show("Cadastro realizado");
                         }
-
+                        else
+                        {
+                            MessageBox.Show("Erro no cadastro");
+                        }
                     }
                     else
                     {

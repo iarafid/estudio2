@@ -161,5 +161,19 @@ namespace estudio
         {
 
         }
+
+        private void cadastrarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CadastrarMatricula cadMatricula = new CadastrarMatricula();
+            cadMatricula.MdiParent = this;
+            cadMatricula.Show();
+        }
+
+        private void excluirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ConsultarExcluirMatricula excMatricula = new ConsultarExcluirMatricula(1);
+            excMatricula.MdiParent = this;
+            excMatricula.Show();
+        }
     }
 }

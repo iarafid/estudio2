@@ -240,7 +240,7 @@ namespace estudio
             return resultado;
         }
 
-        public MySqlDataReader consultarTurmaId(int id)
+        public MySqlDataReader consultarTurmaId(string id)
         {
             MySqlCommand consulta = null;
             MySqlDataReader resultado = null;
